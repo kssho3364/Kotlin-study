@@ -2,17 +2,15 @@ package com.example.kotlintestapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kotlintestapplication.databinding.ActivityMainBinding
+import com.example.kotlintestapplication.databinding.ActivityRegisterBinding
 
-class MainActivity : AppCompatActivity(){
+class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
     }
 }
