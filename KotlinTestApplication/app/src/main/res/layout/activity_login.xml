@@ -6,12 +6,13 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bluetooth Attendence"
         android:layout_marginTop="250dp"
-        android:textSize="20dp"
+        android:text="Bluetooth Attendence"
         android:textColor="@color/purple_500"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,10 +21,11 @@
         android:id="@+id/password_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="PW"
         android:inputType="text"
-        android:layout_marginTop="20dp"
+        android:text="admin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_et" />
@@ -36,6 +38,7 @@
         android:ems="10"
         android:hint="ID"
         android:inputType="textPersonName"
+        android:text="admin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,4 +63,14 @@
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="@+id/password_et"
         app:layout_constraintTop_toBottomOf="@id/password_et" />
+
+    <Button
+        android:id="@+id/test_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

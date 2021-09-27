@@ -20,16 +20,39 @@ class LoginActivity : AppCompatActivity() {
 
         mDatabase = FirebaseDatabase.getInstance().reference
 
+        binding.testBt.setOnClickListener {
+            UserInfoData.setName("김상호")
+            UserInfoData.setCOMP("광교종합사회복지관")
+        }
+
         binding.loginBt.setOnClickListener {
             if(!binding.idEt.text.toString().equals("") && !binding.passwordEt.text.toString().equals("")){
                 Log.d("getText",binding.idEt.text.toString())
                 mDatabase.child("User").addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(p0: DataSnapshot) {
-                        for (dataSnapshot : DataSnapshot in p0.children){
-                            Log.d("asd","aa\n"+dataSnapshot.toString())
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (dataSnapshot : DataSnapshot in snapshot.children){
+                            //파이어베이스에서 가져온 값을 dataclass객체로 저장.
+                            val userdata = dataSnapshot.getValue(DataModel::class.java)
+                            //null을 허용해준다, 회사를 정하는건 나중이기때문에
+                            Log.d("datamodel",""+ (userdata?.COMP))
+                            if(userdata?.ID.equals(binding.idEt.text.toString())){
+                                if (userdata?.PW.equals(binding.passwordEt.text.toString())){
+                                    if (!userdata?.COMP.equals("null")){
+                                        if (userdata != null) {
+                                            setUserInfo(userdata.NAME,userdata.ID,userdata.PW,userdata.COMP)
+                                            var intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+
+                                        }
+                                    }else{
+
+                                    }
+                                }else Toast.makeText(this@LoginActivity, "비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show()
+                            }else Toast.makeText(this@LoginActivity, "일치하는 아이디가 없습니다.",Toast.LENGTH_SHORT).show()
                         }
                     }
-                    override fun onCancelled(p0: DatabaseError) {
+                    override fun onCancelled(snapshot: DatabaseError) {
 
                     }
                 })
@@ -43,6 +66,15 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+    }
+    private fun setUserInfo(NAME:String, ID:String, PW:String, COMP:String){
+        UserInfoData.setName(NAME)
+        UserInfoData.setPW(PW)
+        UserInfoData.setID(ID)
+        UserInfoData.setCOMP(COMP)
+    }
+    private fun doLogin(){
 
     }
 }
