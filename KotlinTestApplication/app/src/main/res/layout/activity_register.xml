@@ -5,13 +5,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/regitID_et"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/regitPW_et"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/regitID_et"
+        app:layout_constraintStart_toStartOf="@+id/regitID_et"
+        app:layout_constraintTop_toBottomOf="@+id/regitName_et" />
+
+    <Button
+        android:id="@+id/duplicteCheck_bt"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="√"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/regitID_et"
+        app:layout_constraintEnd_toEndOf="@+id/regitID_et"
+        app:layout_constraintTop_toTopOf="@+id/regitID_et" />
+
+    <EditText
+        android:id="@+id/regitPWCheck_et"
+        android:layout_width="250sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/regitPW_et"
+        app:layout_constraintStart_toStartOf="@+id/regitPW_et"
+        app:layout_constraintTop_toBottomOf="@+id/regitPW_et" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="151dp"
-        android:text="회원가입페이지"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="회원가입"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/regitID_et"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/join_bt"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="가입하기"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/regitPWCheck_et"
+        app:layout_constraintStart_toStartOf="@+id/regitPWCheck_et"
+        app:layout_constraintTop_toBottomOf="@+id/regitPWCheck_et" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디"
+        app:layout_constraintBottom_toTopOf="@+id/regitID_et"
+        app:layout_constraintStart_toStartOf="@+id/regitID_et" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호"
+        app:layout_constraintBottom_toTopOf="@+id/regitPW_et"
+        app:layout_constraintStart_toStartOf="@+id/regitPW_et" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 확인"
+        app:layout_constraintBottom_toTopOf="@+id/regitPWCheck_et"
+        app:layout_constraintStart_toStartOf="@+id/regitPWCheck_et" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중복확인"
+        app:layout_constraintBottom_toTopOf="@+id/regitID_et"
+        app:layout_constraintEnd_toEndOf="@+id/regitID_et" />
+
+    <EditText
+        android:id="@+id/regitName_et"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/regitID_et"
+        app:layout_constraintStart_toStartOf="@+id/regitID_et"
+        app:layout_constraintTop_toBottomOf="@+id/regitID_et" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이름"
+        app:layout_constraintBottom_toTopOf="@+id/regitName_et"
+        app:layout_constraintStart_toStartOf="@+id/regitName_et" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

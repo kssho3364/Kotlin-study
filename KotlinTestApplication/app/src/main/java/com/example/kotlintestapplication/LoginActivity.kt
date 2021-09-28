@@ -28,9 +28,12 @@ class LoginActivity : AppCompatActivity() {
         binding.loginBt.setOnClickListener {
             if(!binding.idEt.text.toString().equals("") && !binding.passwordEt.text.toString().equals("")){
                 Log.d("getText",binding.idEt.text.toString())
+                var countID = 0
+                var countSnapshot = 0
                 mDatabase.child("User").addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         for (dataSnapshot : DataSnapshot in snapshot.children){
+                            countSnapshot++
                             //파이어베이스에서 가져온 값을 dataclass객체로 저장.
                             val userdata = dataSnapshot.getValue(DataModel::class.java)
                             //null을 허용해준다, 회사를 정하는건 나중이기때문에
@@ -43,13 +46,21 @@ class LoginActivity : AppCompatActivity() {
                                             var intent = Intent(this@LoginActivity, MainActivity::class.java)
                                             startActivity(intent)
                                             finish()
-
                                         }
                                     }else{
-
+                                            Toast.makeText(this@LoginActivity, "신규회원",Toast.LENGTH_SHORT).show()
+                                        break
                                     }
-                                }else Toast.makeText(this@LoginActivity, "비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show()
-                            }else Toast.makeText(this@LoginActivity, "일치하는 아이디가 없습니다.",Toast.LENGTH_SHORT).show()
+                                }else{
+                                    Toast.makeText(this@LoginActivity,"비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show()
+                                    break
+                                }
+                            }else{
+                                countID++
+                            }
+                        }
+                        if (countID == countSnapshot){
+                            Toast.makeText(this@LoginActivity,"일치하는 아이디가 없습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                     override fun onCancelled(snapshot: DatabaseError) {
