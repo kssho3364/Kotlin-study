@@ -48,8 +48,12 @@ class LoginActivity : AppCompatActivity() {
                                             finish()
                                         }
                                     }else{
-                                            Toast.makeText(this@LoginActivity, "신규회원",Toast.LENGTH_SHORT).show()
-                                        break
+                                        if (userdata != null) {
+                                            setUserInfo(userdata.NAME,userdata.ID,userdata.PW,"null")
+                                            val intent = Intent(this@LoginActivity, ConfirmActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+                                        }
                                     }
                                 }else{
                                     Toast.makeText(this@LoginActivity,"비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show()
