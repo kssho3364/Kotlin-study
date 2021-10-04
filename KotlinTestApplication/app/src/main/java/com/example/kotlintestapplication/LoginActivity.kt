@@ -1,14 +1,25 @@
 package com.example.kotlintestapplication
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
 import com.example.kotlintestapplication.databinding.ActivityLoginBinding
 import com.google.firebase.database.*
 
 class LoginActivity : AppCompatActivity() {
+
+    private val REQUEST_PERMISSIONS = 2
+    private val PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
 
     private lateinit var binding : ActivityLoginBinding
     private lateinit var mDatabase : DatabaseReference
@@ -20,9 +31,26 @@ class LoginActivity : AppCompatActivity() {
 
         mDatabase = FirebaseDatabase.getInstance().reference
 
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                Toast.makeText(this,"위치권한 있어야해용.. \n설정에서 위치권한 허용해주세용!", Toast.LENGTH_SHORT).show()
+                finish()
+            }else {
+                requestPermissions(this,PERMISSIONS,REQUEST_PERMISSIONS)
+            }
+        }
+
         binding.testBt.setOnClickListener {
-            UserInfoData.setName("김상호")
-            UserInfoData.setCOMP("광교종합사회복지관")
+           mDatabase.child("Company").child("광교종합사회복지관").child("CODE").addListenerForSingleValueEvent(object : ValueEventListener{
+               override fun onDataChange(p0: DataSnapshot) {
+                   Log.d("value",""+p0.value)
+               }
+
+               override fun onCancelled(p0: DatabaseError) {
+                   TODO("Not yet implemented")
+               }
+           })
         }
 
         binding.loginBt.setOnClickListener {
@@ -43,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
                                     if (!userdata?.COMP.equals("null")){
                                         if (userdata != null) {
                                             setUserInfo(userdata.NAME,userdata.ID,userdata.PW,userdata.COMP)
+//                                            UserInfoData.setCode("a")
                                             var intent = Intent(this@LoginActivity, MainActivity::class.java)
                                             startActivity(intent)
                                             finish()
@@ -80,7 +109,6 @@ class LoginActivity : AppCompatActivity() {
             var intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
 
     }
     private fun setUserInfo(NAME:String, ID:String, PW:String, COMP:String){

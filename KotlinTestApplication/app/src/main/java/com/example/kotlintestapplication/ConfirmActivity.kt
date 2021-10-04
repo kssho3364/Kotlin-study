@@ -69,8 +69,8 @@ class ConfirmActivity : AppCompatActivity() {
             builder.setMessage(item.get(position)+"\n맞습니까??")
             builder.setPositiveButton("예") { dialog, which ->
                 mDatabase.child("User").child(UserInfoData.getID()).child("COMP").setValue(item.get(position))
-
-                val intent = Intent(this@ConfirmActivity, LoginActivity::class.java)
+                UserInfoData.setCode(mDatabase.child("Company").child(UserInfoData.getCOMP()).child("CODE").key!!)
+                val intent = Intent(this@ConfirmActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
