@@ -3,6 +3,7 @@ package com.example.kotlintestapplication
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.*
+import android.graphics.drawable.ColorDrawable
 //import android.hardware.biometrics.BiometricPrompt
 import android.location.LocationManager
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -21,9 +23,10 @@ import androidx.biometric.BiometricPrompt
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.coroutines.*
 
 
-class AttendFragment : Fragment() {
+class AttendFragment : Fragment(){
 
     private var attendCode = ""
     private val REQEST_ENABLE_LOCATION = 100
@@ -35,17 +38,19 @@ class AttendFragment : Fragment() {
     private lateinit var executor : Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private lateinit var mBinding : FragmentAttendBinding
+    private lateinit var progressDialog : ProgressDialog
     private lateinit var locationManager: LocationManager
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentAttendBinding.inflate(inflater,container,false)
+        mBinding = binding
+        progressDialog = ProgressDialog(requireContext())
+        binding.showCompName.setText(UserInfoData.getCOMP())
+        locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         getCompanyCode()
-
-        //얘를 밖에서 선언하면 오류뜸 왜지 ㄹㅇ??
-        val locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        setStatus(binding)
 
         binding.attendBt.setOnClickListener {
             setLocationManager()
@@ -55,7 +60,6 @@ class AttendFragment : Fragment() {
                 doBiometric()
             }
         }
-
         binding.workoffBt.setOnClickListener {
             setLocationManager()
             setBluetooth()
@@ -81,8 +85,8 @@ class AttendFragment : Fragment() {
                 BluetoothDevice.ACTION_FOUND -> {
                     val device : BluetoothDevice? = intent?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
                     val deviceName = device?.name
-                    Log.d("found device", ""+UserInfoData.getCode())
                     if (deviceName.equals(UserInfoData.getCode())){
+                        bluetoothAdapter.cancelDiscovery()
                         doAttend()
                     }
                 }
@@ -107,7 +111,6 @@ class AttendFragment : Fragment() {
 
             override fun onAuthenticationFailed() {
                 super.onAuthenticationFailed()
-                Toast.makeText(requireContext(),"유효한 인식이 필요합니다.",Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -138,6 +141,8 @@ class AttendFragment : Fragment() {
     }
 
     private fun startBluetoothScan(){
+        ////////////////////////////////////
+        progressDialog.show()
         requireActivity().registerReceiver(onReceive, filter)
         filter.addAction(BluetoothDevice.ACTION_FOUND)
         bluetoothAdapter.startDiscovery()
@@ -152,6 +157,9 @@ class AttendFragment : Fragment() {
         val timeNow = mTimeFormat.format(date)
         mDatabase.child("Company").child(UserInfoData.getCOMP()).child("Attend").child(UserInfoData.getID()).child(dayNow).child(attendCode).setValue(timeNow)
         Toast.makeText(requireContext(),""+attendCode+" 되었습니다.", Toast.LENGTH_SHORT).show()
+        App.prefs.setValue("attend_status_now",attendCode)
+        App.prefs.setValue("attend_status_time",timeNow)
+        setStatus(mBinding)
     }
 
     private fun getCompanyCode(){
@@ -163,5 +171,17 @@ class AttendFragment : Fragment() {
                 Toast.makeText(requireContext(),"주소를 불러오지 못했습니다.",Toast.LENGTH_SHORT).show()
             }
         })
+    }
+    private fun setStatus(binding: FragmentAttendBinding){
+        Log.d("asd","탔냐?")
+        /////////////////////////////////////////////
+        progressDialog.dismiss()
+        binding.showAttendStatus.setText(App.prefs.getValue("attend_status_now","")+" 중입니다.")
+        binding.statusTime.setText(App.prefs.getValue("attend_status_now","")+"시간 : "+App.prefs.getValue("attend_status_time",""))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        context?.unregisterReceiver(onReceive)
     }
 }
