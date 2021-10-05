@@ -4,16 +4,16 @@
     <item
         android:id="@+id/item_attendFrag"
         android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_icon_disabled"
-        android:title="Item" />
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="Attend" />
     <item
         android:id="@+id/item_searchFrag"
         android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_icon_disabled"
-        android:title="Item" />
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search" />
     <item
         android:id="@+id/item_settingFrag"
         android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_icon_disabled"
-        android:title="Item" />
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Setting" />
 </menu>

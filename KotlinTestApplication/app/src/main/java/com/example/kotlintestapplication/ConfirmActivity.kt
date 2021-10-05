@@ -70,7 +70,8 @@ class ConfirmActivity : AppCompatActivity() {
             builder.setPositiveButton("예") { dialog, which ->
                 mDatabase.child("User").child(UserInfoData.getID()).child("COMP").setValue(item.get(position))
                 UserInfoData.setCode(mDatabase.child("Company").child(UserInfoData.getCOMP()).child("CODE").key!!)
-                val intent = Intent(this@ConfirmActivity, MainActivity::class.java)
+                Toast.makeText(this@ConfirmActivity,"등록되었습니다\n다시 로그인해주세요",Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@ConfirmActivity, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }

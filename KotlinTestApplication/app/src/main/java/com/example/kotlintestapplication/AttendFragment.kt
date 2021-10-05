@@ -176,12 +176,9 @@ class AttendFragment : Fragment(){
         Log.d("asd","탔냐?")
         /////////////////////////////////////////////
         progressDialog.dismiss()
-        binding.showAttendStatus.setText(App.prefs.getValue("attend_status_now","")+" 중입니다.")
-        binding.statusTime.setText(App.prefs.getValue("attend_status_now","")+"시간 : "+App.prefs.getValue("attend_status_time",""))
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        context?.unregisterReceiver(onReceive)
+
+        binding.showAttendStatus.setText(App.prefs.getValue("attend_status_now","")+" 중입니다")
+        binding.statusTime.setText(App.prefs.getValue("attend_status_now","")+"시간 : "+App.prefs.getValue("attend_status_time",""))
     }
 }

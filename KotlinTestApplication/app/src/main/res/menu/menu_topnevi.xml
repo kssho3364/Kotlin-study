@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_simple"
+        android:enabled="true"
+        android:icon="?attr/actionModePasteDrawable"
+        android:title="요약" />
+    <item
+        android:id="@+id/item_complex"
+        android:enabled="true"
+        android:icon="?attr/actionModeCopyDrawable"
+        android:title="자세히" />
+</menu>

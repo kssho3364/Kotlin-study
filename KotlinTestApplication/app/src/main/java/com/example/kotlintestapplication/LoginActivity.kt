@@ -41,18 +41,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.testBt.setOnClickListener {
-           mDatabase.child("Company").child("광교종합사회복지관").child("CODE").addListenerForSingleValueEvent(object : ValueEventListener{
-               override fun onDataChange(p0: DataSnapshot) {
-                   Log.d("value",""+p0.value)
-               }
-
-               override fun onCancelled(p0: DatabaseError) {
-                   TODO("Not yet implemented")
-               }
-           })
-        }
-
         binding.loginBt.setOnClickListener {
             if(!binding.idEt.text.toString().equals("") && !binding.passwordEt.text.toString().equals("")){
                 Log.d("getText",binding.idEt.text.toString())

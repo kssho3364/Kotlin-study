@@ -10,7 +10,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="300dp"
         android:text="출근"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
         android:id="@+id/workoff_bt"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="50dp"
         android:text="퇴근"
         android:textSize="24sp"
@@ -33,6 +33,7 @@
         android:id="@+id/showAttendStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/attend_bt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,11 +55,5 @@
         app:layout_constraintBottom_toTopOf="@+id/showAttendStatus"
         app:layout_constraintEnd_toEndOf="@+id/showAttendStatus"
         app:layout_constraintStart_toStartOf="@+id/showAttendStatus" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
