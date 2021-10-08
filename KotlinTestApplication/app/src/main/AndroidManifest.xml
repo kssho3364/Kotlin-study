@@ -28,6 +28,11 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".ConfirmActivity"/>
         <activity android:name=".SelectCompActivity"/>
+        <activity android:name=".NoticeActivity"/>
+        <activity android:name=".NoticeViewActivity"/>
+        <activity android:name=".ModifyInfoActivity"/>
+        <activity android:name=".MyPageActivity"/>
+        <activity android:name=".SettingCompActivity"/>
     </application>
 
 </manifest>

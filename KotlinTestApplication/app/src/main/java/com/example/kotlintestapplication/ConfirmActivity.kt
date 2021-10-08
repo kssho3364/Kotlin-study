@@ -29,8 +29,7 @@ class ConfirmActivity : AppCompatActivity() {
 
         val myAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, item)
 
-        var listener = ListListener()
-        binding.searchCompListView.setOnItemClickListener(listener)
+        binding.searchCompListView.setOnItemClickListener(ListListener())
 
         binding.searchCompListView.adapter = myAdapter
 

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(){
         val settingFragment = SettingFragment()
 
         supportFragmentManager.beginTransaction().add(R.id.fargment_Layout, attendFragment).commit()
+        binding.titleBar.setText("Attend")
 
         binding.bottomNavigationView.run { setOnItemSelectedListener {
                 when(it.itemId){

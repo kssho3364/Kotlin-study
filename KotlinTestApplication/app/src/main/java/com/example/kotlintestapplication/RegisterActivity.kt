@@ -59,15 +59,15 @@ class RegisterActivity : AppCompatActivity() {
                 builder.setMessage("회원가입 하시겠습니까?")
                 builder.setPositiveButton("예",DialogInterface.OnClickListener { dialog, which ->
                     creatAccount(binding.regitIDEt.text.toString(), binding.regitPWEt.text.toString(), binding.regitNameEt.text.toString())
+                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    Toast.makeText(this@RegisterActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                    finish()
                 })
                 builder.setNegativeButton("아니요", DialogInterface.OnClickListener { dialog, which ->
                 })
                 builder.create().show()
-                creatAccount(binding.regitIDEt.text.toString(), binding.regitPWEt.text.toString(), binding.regitNameEt.text.toString())
-                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                startActivity(intent)
-                Toast.makeText(this@RegisterActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_SHORT).show()
-                finish()
+
             }else{
                 Toast.makeText(this@RegisterActivity, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
             }

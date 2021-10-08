@@ -9,7 +9,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bluetooth Attendence"
+        android:text="Bluetooth Attandence"
         android:textColor="@color/purple_500"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,5 +65,22 @@
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="@+id/password_et"
         app:layout_constraintTop_toBottomOf="@id/password_et" />
+
+    <CheckBox
+        android:id="@+id/autoLogin"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/id_et"
+        app:layout_constraintEnd_toEndOf="@+id/id_et" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자동로그인"
+        app:layout_constraintBottom_toBottomOf="@+id/autoLogin"
+        app:layout_constraintEnd_toStartOf="@+id/autoLogin"
+        app:layout_constraintTop_toTopOf="@+id/autoLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
