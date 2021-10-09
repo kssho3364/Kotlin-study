@@ -41,16 +41,17 @@ class AttendFragment : Fragment(){
     private lateinit var mBinding : FragmentAttendBinding
     private lateinit var progressDialog : ProgressDialog
     private lateinit var locationManager: LocationManager
+    private lateinit var binding : FragmentAttendBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentAttendBinding.inflate(inflater,container,false)
+        binding = FragmentAttendBinding.inflate(inflater,container,false)
         mBinding = binding
         progressDialog = ProgressDialog(requireContext())
         binding.showCompName.setText(UserInfoData.getCOMP())
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        getCompanyCode()
-        setStatus(binding)
+//        getCompanyCode()
+//        setStatus(binding)
 
         binding.attendBt.setOnClickListener {
             setLocationManager()
@@ -180,5 +181,11 @@ class AttendFragment : Fragment(){
 
         binding.showAttendStatus.setText(App.prefs.getValue("attend_status_now","")+" 중입니다")
         binding.statusTime.setText(App.prefs.getValue("attend_status_now","")+"시간 : "+App.prefs.getValue("attend_status_time",""))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getCompanyCode()
+        setStatus(binding)
     }
 }
