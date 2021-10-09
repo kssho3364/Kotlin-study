@@ -25,6 +25,8 @@ class ModifyInfoActivity : AppCompatActivity() {
                 ) {
                     mDatabase.child("User").child(UserInfoData.getID()).child("PW").setValue(binding.inputPWModi.text.toString())
                     mDatabase.child("User").child(UserInfoData.getID()).child("NAME").setValue(binding.inputNameModi.text.toString())
+                    UserInfoData.setName(binding.inputNameModi.text.toString())
+                    UserInfoData.setPW(binding.inputPWModi.text.toString())
 
                     Toast.makeText(this,"수정되었습니다.",Toast.LENGTH_SHORT).show()
                     finish()

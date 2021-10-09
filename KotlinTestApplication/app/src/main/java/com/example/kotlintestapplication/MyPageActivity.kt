@@ -35,10 +35,6 @@ class MyPageActivity : AppCompatActivity() {
         passwordCancel_bt = modiDialod.findViewById(R.id.password_cancel)
         inputPassword = modiDialod.findViewById(R.id.inputPassword_edit)
 
-        binding.showInfoNameTv.setText(UserInfoData.getName())
-        binding.showInfoIDTv.setText(UserInfoData.getID())
-        binding.showInfoCompTv.setText(UserInfoData.getCOMP())
-
         binding.modifyInfoBt.setOnClickListener {
             showModiDialog()
         }
@@ -58,5 +54,12 @@ class MyPageActivity : AppCompatActivity() {
         passwordCancel_bt.setOnClickListener {
             modiDialod.dismiss()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.showInfoNameTv.setText(UserInfoData.getName())
+        binding.showInfoIDTv.setText(UserInfoData.getID())
+        binding.showInfoCompTv.setText(UserInfoData.getCOMP())
     }
 }
