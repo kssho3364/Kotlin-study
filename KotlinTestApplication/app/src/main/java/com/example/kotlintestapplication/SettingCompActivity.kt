@@ -27,7 +27,7 @@ class SettingCompActivity : AppCompatActivity() {
 
     private val mDatabase = FirebaseDatabase.getInstance().reference
     private val items = mutableListOf<SettingCompListViewItem>()
-    var changeCompItem = ArrayList<String>()
+    private var changeCompItem = ArrayList<String>()
     private val selectedItem = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +68,7 @@ class SettingCompActivity : AppCompatActivity() {
 
     private fun SetListView(visibility : Int, kind : String){
         items.clear()
+        changeCompItem.clear()
         mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapShot: DataSnapshot) {
                 for (dataSnapShot : DataSnapshot in snapShot.children){
