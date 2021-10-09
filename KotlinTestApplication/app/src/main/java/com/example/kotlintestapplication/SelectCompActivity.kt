@@ -15,23 +15,38 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SelectCompActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySelectcompBinding
     private val mDatabase = FirebaseDatabase.getInstance().reference
     private var item = ArrayList<String>()
+    private val random = Random()
+    private var getCode = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectcompBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //set ArrayList for key
+        mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                for (dataSnapshot : DataSnapshot in p0.children){
+                    getCode.add(dataSnapshot.key.toString())
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+
         val myAdapter = ArrayAdapter(this@SelectCompActivity, android.R.layout.simple_list_item_1, item)
 
         binding.listComp.adapter = myAdapter
 
-//        binding.listComp.setOnItemClickListener(ListListener())
+        binding.listComp.setOnItemClickListener(ListListener())
 
         binding.searchBt.setOnClickListener {
             if(!binding.searchCompEdit.text.toString().equals("")) {
@@ -68,12 +83,32 @@ class SelectCompActivity : AppCompatActivity() {
             builder.setMessage(item.get(position)+"\n맞습니까??")
             builder.setPositiveButton("예") { dialog, which ->
                 //여기부터
-               mDatabase.child("User").child(UserInfoData.getID()).child("COMP").setValue(item.get(position))
-                UserInfoData.setCode(mDatabase.child("Company").child(UserInfoData.getCOMP()).child("CODE").key!!)
-                Toast.makeText(this@SelectCompActivity,"등록되었습니다\n다시 로그인해주세요",Toast.LENGTH_SHORT).show()
-                val intent = Intent(this@SelectCompActivity, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
+                mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapShot : DataSnapshot) {
+                        for (dataSnapShot : DataSnapshot in snapShot.children){
+                            if (dataSnapShot.getValue().toString().equals(item.get(position))){
+                                Toast.makeText(this@SelectCompActivity,"중복된 회사",Toast.LENGTH_SHORT).show()
+                                break
+                            }else{
+                                var randomkey = randomKey()
+                                mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").child(randomkey).setValue(item.get(position))
+                                finish()
+                                break
+                            }
+                        }
+                    }
+                    override fun onCancelled(snapShot : DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
+
+//                mDatabase.child("User").child(UserInfoData.getID()).child("COMP").setValue(item.get(position))
+//                UserInfoData.setCode(mDatabase.child("Company").child(UserInfoData.getCOMP()).child("CODE").key!!)
+//                Toast.makeText(this@SelectCompActivity,"등록되었습니다\n다시 로그인해주세요",Toast.LENGTH_SHORT).show()
+//                val intent = Intent(this@SelectCompActivity, LoginActivity::class.java)
+//                startActivity(intent)
+//                finish()
             }
             builder.setNegativeButton("아니요", { dialog, which ->
             })
@@ -81,5 +116,23 @@ class SelectCompActivity : AppCompatActivity() {
 
             Log.d("test",""+item.get(position))
         }
+    }
+    private fun randomKey() : String{
+        lateinit var key : String
+        while (true){
+        var key1 = String.format("%04d",random.nextInt(10000))
+            var count = 0
+            for (i in 0..getCode.size-1){
+                if (getCode.get(i).equals(key1)){
+                    count++
+                }
+            }
+            if (count == 0){
+                key = key1
+                break
+            }
+        }
+        Log.d("key",""+key)
+        return key
     }
 }

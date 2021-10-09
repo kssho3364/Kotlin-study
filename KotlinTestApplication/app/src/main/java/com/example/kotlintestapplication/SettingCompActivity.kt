@@ -22,13 +22,14 @@ class SettingCompActivity : AppCompatActivity() {
 
     private val mDatabase = FirebaseDatabase.getInstance().reference
     private val items = mutableListOf<SettingCompListViewItem>()
+    private val selectedItem = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingcompBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        SetListView(View.GONE,"complete")
+//        SetListView(View.GONE,"complete")
 
         binding.deleteCompBt.setOnClickListener {
             SetListView(View.VISIBLE,"delete")
@@ -41,20 +42,22 @@ class SettingCompActivity : AppCompatActivity() {
         }
 
         binding.CompleteBt.setOnClickListener {
+            for (i in 0..selectedItem.size-1){
+                Log.d("list",""+selectedItem.get(i))
+                mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").child(selectedItem.get(i)).removeValue()
+            }
             SetListView(View.GONE,"complete")
             binding.scanCompListview.setOnItemClickListener(ListenerEnable())
+            selectedItem.clear()
         }
     }
 
     private fun SetListView(visibility : Int, kind : String){
         items.clear()
         mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").addListenerForSingleValueEvent(object : ValueEventListener{
-            var count = 0
             override fun onDataChange(snapShot: DataSnapshot) {
                 for (dataSnapShot : DataSnapshot in snapShot.children){
-                    count++
-                    Log.d("value", snapShot.child(count.toString()).getValue().toString())
-                    items.add(SettingCompListViewItem(snapShot.child(count.toString()).getValue().toString(),false,visibility))
+                    items.add(SettingCompListViewItem(snapShot.child(dataSnapShot.key.toString()).getValue().toString(),false,visibility,dataSnapShot.key.toString()))
                 }
                 notificationChage()
                 if (kind.equals("delete")){
@@ -74,13 +77,18 @@ class SettingCompActivity : AppCompatActivity() {
 
             val item = parent?.getItemAtPosition(position) as SettingCompListViewItem
             if (item.CompCheck==true){
-                items.set(position,SettingCompListViewItem(item.CompName,false,View.VISIBLE))
+                items.set(position,SettingCompListViewItem(item.CompName,false,View.VISIBLE,item.codehiding))
+                selectedItem.remove(item.codehiding)
 
-            }else items.set(position,SettingCompListViewItem(item.CompName,true,View.VISIBLE))
+            }else {
+                items.set(position,SettingCompListViewItem(item.CompName,true,View.VISIBLE,item.codehiding))
+                selectedItem.add(item.codehiding)
+            }
 
             adapter = SettingCompListViewAdapter(items)
             binding.scanCompListview.adapter = adapter
-            Log.d("getPosotion",""+item.CompName)
+            Log.d("getPosotion",""+item.codehiding)
+
         }
     }
     inner class ListenerEnable : AdapterView.OnItemClickListener{
@@ -96,5 +104,11 @@ class SettingCompActivity : AppCompatActivity() {
         binding.CompleteBt.visibility = complete
         binding.deleteCompBt.visibility = delete
         binding.addCompBt.visibility = add
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("onResume","in")
+        SetListView(View.GONE,"complete")
     }
 }

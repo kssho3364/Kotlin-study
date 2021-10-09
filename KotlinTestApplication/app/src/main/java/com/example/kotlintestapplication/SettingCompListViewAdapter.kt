@@ -24,6 +24,7 @@ class SettingCompListViewAdapter(private val items : MutableList<SettingCompList
         convertView!!.findViewById<TextView>(R.id.compNameList).text = item.CompName
         convertView!!.findViewById<CheckBox>(R.id.compCheckBox).isChecked = item.CompCheck
         convertView!!.findViewById<CheckBox>(R.id.compCheckBox).visibility = item.CheckBoxVisible
+        convertView!!.findViewById<TextView>(R.id.code_hiding).text = item.codehiding
 //        Log.d("position",""+position)
         Log.d("지나가나","ㅇㅇ")
         return convertView
