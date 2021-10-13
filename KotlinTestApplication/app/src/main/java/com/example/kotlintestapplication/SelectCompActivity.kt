@@ -85,30 +85,23 @@ class SelectCompActivity : AppCompatActivity() {
                 //여기부터
                 mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapShot : DataSnapshot) {
+                        var count = 0
                         for (dataSnapShot : DataSnapshot in snapShot.children){
                             if (dataSnapShot.getValue().toString().equals(item.get(position))){
                                 Toast.makeText(this@SelectCompActivity,"중복된 회사",Toast.LENGTH_SHORT).show()
-                                break
-                            }else{
-                                var randomkey = randomKey()
-                                mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").child(randomkey).setValue(item.get(position))
-                                finish()
+                                count++
                                 break
                             }
                         }
+                        if (count == 0){
+                            var randomkey = randomKey()
+                            mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").child(randomkey).setValue(item.get(position))
+                            finish()
+                        }
                     }
                     override fun onCancelled(snapShot : DatabaseError) {
-                        TODO("Not yet implemented")
                     }
                 })
-
-
-//                mDatabase.child("User").child(UserInfoData.getID()).child("COMP").setValue(item.get(position))
-//                UserInfoData.setCode(mDatabase.child("Company").child(UserInfoData.getCOMP()).child("CODE").key!!)
-//                Toast.makeText(this@SelectCompActivity,"등록되었습니다\n다시 로그인해주세요",Toast.LENGTH_SHORT).show()
-//                val intent = Intent(this@SelectCompActivity, LoginActivity::class.java)
-//                startActivity(intent)
-//                finish()
             }
             builder.setNegativeButton("아니요", { dialog, which ->
             })

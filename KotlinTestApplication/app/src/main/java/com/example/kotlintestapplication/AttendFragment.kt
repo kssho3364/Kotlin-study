@@ -178,7 +178,6 @@ class AttendFragment : Fragment(){
         /////////////////////////////////////////////
         progressDialog.dismiss()
 
-
         binding.showAttendStatus.setText(App.prefs.getValue("attend_status_now","")+" 중입니다")
         binding.statusTime.setText(App.prefs.getValue("attend_status_now","")+"시간 : "+App.prefs.getValue("attend_status_time",""))
     }
