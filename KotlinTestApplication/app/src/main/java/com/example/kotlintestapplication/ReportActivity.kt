@@ -31,7 +31,8 @@ class ReportActivity : AppCompatActivity() {
 
     private val mDatabase = FirebaseDatabase.getInstance().reference
     private val REQUEST_CODE = 0
-    private var bitmapToString = ""
+    private var bitmapToString ="NO IMAGE"
+    private var sibal = ""
     private val random = Random()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +98,8 @@ class ReportActivity : AppCompatActivity() {
                     mDatabase.child("Report").child(randomkey).child("TITLE").setValue(binding.reportTitleEt.text.toString())
                     mDatabase.child("Report").child(randomkey).child("CONTENT").setValue(binding.reportContentEt.text.toString())
                     mDatabase.child("Report").child(randomkey).child("IMAGE").setValue(bitmapToString)
+                    Toast.makeText(this,"소중한 의견 감사합니다!",Toast.LENGTH_SHORT).show()
+                    finish()
                     Log.d("bitmapString",bitmapToString)
                 }else{
                     Toast.makeText(this,"내용을 입력해주세요",Toast.LENGTH_SHORT).show()
@@ -125,12 +128,10 @@ class ReportActivity : AppCompatActivity() {
 
                     //비트맵을 문자열로 변환하는 과정
                     var baos = ByteArrayOutputStream()
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,baos)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,70,baos)
                     var imageByte = baos.toByteArray()
                     bitmapToString = Base64.encodeToString(imageByte,Base64.NO_WRAP)
                     Log.d("getbitmapToString",bitmapToString)
-
-
                 }catch (e : Exception){
 
                 }
