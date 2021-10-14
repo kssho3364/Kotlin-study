@@ -32,7 +32,6 @@ class ReportActivity : AppCompatActivity() {
     private val mDatabase = FirebaseDatabase.getInstance().reference
     private val REQUEST_CODE = 0
     private var bitmapToString ="NO IMAGE"
-    private var sibal = ""
     private val random = Random()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,13 +93,14 @@ class ReportActivity : AppCompatActivity() {
                 if (!binding.reportContentEt.text.toString().equals("")){
                     progressDialog.show()
                     var randomkey = randomKey()
+
                     mDatabase.child("Report").child(randomkey).child("ID").setValue(UserInfoData.getID())
                     mDatabase.child("Report").child(randomkey).child("TITLE").setValue(binding.reportTitleEt.text.toString())
                     mDatabase.child("Report").child(randomkey).child("CONTENT").setValue(binding.reportContentEt.text.toString())
                     mDatabase.child("Report").child(randomkey).child("IMAGE").setValue(bitmapToString)
                     Toast.makeText(this,"소중한 의견 감사합니다!",Toast.LENGTH_SHORT).show()
                     finish()
-                    Log.d("bitmapString",bitmapToString)
+                    Log.d("getbitmapToString",bitmapToString)
                 }else{
                     Toast.makeText(this,"내용을 입력해주세요",Toast.LENGTH_SHORT).show()
                 }
@@ -130,7 +130,7 @@ class ReportActivity : AppCompatActivity() {
                     var baos = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG,70,baos)
                     var imageByte = baos.toByteArray()
-                    bitmapToString = Base64.encodeToString(imageByte,Base64.NO_WRAP)
+                    bitmapToString = Base64.encodeToString(imageByte,Base64.NO_WRAP).toString()
                     Log.d("getbitmapToString",bitmapToString)
                 }catch (e : Exception){
 
