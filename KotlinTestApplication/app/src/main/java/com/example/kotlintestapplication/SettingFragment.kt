@@ -36,7 +36,7 @@ class SettingFragment : Fragment() {
             startActivity(intent)
         }
         binding.settingBt.setOnClickListener {
-            val intent = Intent(activity, ReportActivity::class.java)
+            val intent = Intent(activity, SettingActivity::class.java)
             startActivity(intent)
         }
 

@@ -12,13 +12,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlintestapplication.databinding.ActivityConfirmBinding
 import com.google.firebase.database.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ConfirmActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityConfirmBinding
     private lateinit var mDatabase : DatabaseReference
 
-    var item = ArrayList<String>()
+    private var item = ArrayList<String>()
+    private var getCode = ArrayList<String>()
+    private var random = Random()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,18 @@ class ConfirmActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mDatabase = FirebaseDatabase.getInstance().reference
+
+        mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                for (dataSnapshot : DataSnapshot in p0.children){
+                    getCode.add(dataSnapshot.key.toString())
+                    Log.d("keykeykey",""+dataSnapshot.key.toString())
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
         val myAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, item)
 
@@ -65,10 +81,11 @@ class ConfirmActivity : AppCompatActivity() {
     inner class ListListener : AdapterView.OnItemClickListener{
         override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val builder = AlertDialog.Builder(this@ConfirmActivity)
+            var key = randomKey()
             builder.setMessage(item.get(position)+"\n맞습니까??")
             builder.setPositiveButton("예") { dialog, which ->
                 mDatabase.child("User").child(UserInfoData.getID()).child("COMP").setValue(item.get(position))
-                mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").setValue(item.get(position))
+                mDatabase.child("User").child(UserInfoData.getID()).child("COMPLIST").child(key).setValue(item.get(position))
                 UserInfoData.setCode(mDatabase.child("Company").child(UserInfoData.getCOMP()).child("CODE").key!!)
                 Toast.makeText(this@ConfirmActivity,"등록되었습니다\n다시 로그인해주세요",Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@ConfirmActivity, LoginActivity::class.java)
@@ -81,5 +98,23 @@ class ConfirmActivity : AppCompatActivity() {
 
             Log.d("test",""+item.get(position))
         }
+    }
+    private fun randomKey() : String{
+        lateinit var key : String
+        while (true){
+            var key1 = String.format("%04d", random.nextInt(10000))
+            var count = 0
+            for (i in 0..getCode.size-1){
+                if (getCode.get(i).equals(key1)){
+                    count++
+                }
+            }
+            if (count == 0){
+                key = key1
+                break
+            }
+        }
+        Log.d("key",""+key)
+        return key
     }
 }
