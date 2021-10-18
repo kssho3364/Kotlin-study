@@ -19,7 +19,7 @@ class SettingFragment : Fragment() {
             startActivity(intent)
         }
         binding.logoutBt.setOnClickListener {
-            App.prefs.setValue("autoLogin","")
+            App.prefs.setValue("autoLogin","false")
             App.prefs.setValue("loginID","")
             App.prefs.setValue("loginPW","")
 

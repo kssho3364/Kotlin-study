@@ -43,6 +43,8 @@ class LoginActivity : AppCompatActivity() {
 
         if (App.prefs.getValue("autoLogin","").equals("true")){
             binding.autoLogin.isChecked = true
+            binding.idEt.setText(App.prefs.getValue("loginID",""))
+            binding.passwordEt.setText(App.prefs.getValue("loginPW",""))
             doLogin(App.prefs.getValue("loginID",""),App.prefs.getValue("loginPW",""))
         }
         binding.loginBt.setOnClickListener {
@@ -132,17 +134,18 @@ class LoginActivity : AppCompatActivity() {
                         if(userdata?.ID.equals(getID)){
                             if (userdata?.PW.equals(getPW)){
 
-                                if (binding.autoLogin.isChecked==true) {
-                                    App.prefs.setValue("autoLogin","true")
-                                    App.prefs.setValue("loginID",getID)
-                                    App.prefs.setValue("loginPW",getPW)
-                                }else App.prefs.setValue("autoLogin","false")
+
 
                                 if (!userdata?.COMP.equals("null")){
-
                                     if (userdata != null) {
+
+                                        if (binding.autoLogin.isChecked==true) {
+                                        App.prefs.setValue("autoLogin","true")
+                                        App.prefs.setValue("loginID",getID)
+                                        App.prefs.setValue("loginPW",getPW)
+                                        }else App.prefs.setValue("autoLogin","false")
+
                                         setUserInfo(userdata.NAME,userdata.ID,userdata.PW,userdata.COMP)
-//                                            UserInfoData.setCode("a")
                                         var intent = Intent(this@LoginActivity, MainActivity::class.java)
                                         startActivity(intent)
                                         finish()

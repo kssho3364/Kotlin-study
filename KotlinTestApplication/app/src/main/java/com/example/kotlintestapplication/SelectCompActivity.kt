@@ -49,7 +49,8 @@ class SelectCompActivity : AppCompatActivity() {
         binding.listComp.setOnItemClickListener(ListListener())
 
         binding.searchBt.setOnClickListener {
-            if(!binding.searchCompEdit.text.toString().equals("")) {
+            var compname = binding.searchCompEdit.text.toString().replace(" ","")
+            if(!compname.equals("")) {
                 myAdapter.clear()
                 mDatabase.child("Company")
                     .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -57,12 +58,12 @@ class SelectCompActivity : AppCompatActivity() {
                             for (dataSnapshot: DataSnapshot in snapshot.children) {
                                 Log.d("check_key", "" + dataSnapshot.key)
                                 //코틀린 null 엄격하게 지켜줘야함..................................지금까진 오히려 불편.
-                                if (dataSnapshot.key?.contains(binding.searchCompEdit.text.toString()) == true) {
+                                if (dataSnapshot.key?.contains(compname) == true) {
                                     dataSnapshot.key?.let { data -> item.add(data) }
                                 }
                             }
                             if (item.isEmpty()){
-                                item.add("검색 결과가 없습니다.")
+                                binding.shownothing.setText("검색결과가 없습니다.")
                                 myAdapter.notifyDataSetChanged()
                             }else{
                                 myAdapter.notifyDataSetChanged()

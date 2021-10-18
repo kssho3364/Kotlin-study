@@ -50,20 +50,22 @@ class ConfirmActivity : AppCompatActivity() {
         binding.searchCompListView.adapter = myAdapter
 
         binding.searchCompBt.setOnClickListener {
-            if(!binding.searchCompEt.text.toString().equals("")) {
+            var compname = binding.searchCompEt.text.toString().replace(" ","")
+            if(!compname.equals("")) {
                 myAdapter.clear()
+                binding.showNothing.setText("")
                 mDatabase.child("Company")
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             for (dataSnapshot: DataSnapshot in snapshot.children) {
                                 Log.d("check_key", "" + dataSnapshot.key)
                                 //코틀린 null 엄격하게 지켜줘야함..................................지금까진 오히려 불편.
-                                if (dataSnapshot.key?.contains(binding.searchCompEt.text.toString()) == true) {
+                                if (dataSnapshot.key?.contains(compname) == true) {
                                     dataSnapshot.key?.let { data -> item.add(data) }
                                 }
                             }
                             if (item.isEmpty()){
-                                item.add("검색 결과가 없습니다.")
+                                binding.showNothing.setText("검색 결과가 없습니다.")
                                 myAdapter.notifyDataSetChanged()
                             }else{
                                 myAdapter.notifyDataSetChanged()
