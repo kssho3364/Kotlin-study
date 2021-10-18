@@ -9,7 +9,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bluetooth Attandence"
+        android:text="Bluetooth Attendance"
         android:textColor="@color/purple_500"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
